@@ -1,6 +1,6 @@
 # shush
 
-## wireframes
+## Wireframes
 ##### overview
 ![alt text](/images/wireframes/all.png 'collection')
 ##### index page
@@ -13,3 +13,9 @@
 ![alt text](/images/wireframes/settings_history.png 'settings_history')
 ##### settings_account
 ![alt text](/images/wireframes/settings_account.png 'settings_account')
+
+## Schema
+![Database Schema](https://i.imgur.com/2c6Y2kB.png)
+
+# Tech Stack
+![Tech Stack](https://i.imgur.com/1zo6rXE.png)
