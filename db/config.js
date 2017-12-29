@@ -6,12 +6,6 @@ const sequelize = new Sequelize('shush', 'root', 'NC8Jo8GGBp6CodbP', {
   host: '127.0.0.1',
   dialect: 'mysql',
 });
-// const sequelize = new Sequelize(config.database, config.username, config.password, {
-//   host: config.host,
-//   port: config.port,
-//   dialect: 'mysql',
-// });
-
 
 // define user table
 const User = sequelize.define('user', {
