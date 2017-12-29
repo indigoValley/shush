@@ -17,6 +17,11 @@ app.use(bodyParser.json())
 // testing request helper
 app.get('/home', util.getHome);
 
+// testing database
+app.get('/user', util.getUsers);
+app.post('/user', util.addUser);
+
+
 app.listen(PORT, () => {
   console.log(`listening on port ${PORT}`)
 })

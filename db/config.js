@@ -10,6 +10,7 @@ const User = sequelize.define('user', {
   name: Sequelize.STRING,
   // will add whatever isn't done through slack auth
 });
+User.sync();
 
 const Moment = sequelize.define('moment', {
   dbChange: Sequelize.INTEGER,
@@ -17,6 +18,7 @@ const Moment = sequelize.define('moment', {
 });
 
 Moment.belongsTo(User, { foreignKey: 'id_user' });
+Moment.sync();
 
 const Trigger = sequelize.define('trigger', {
   gate: Sequelize.INTEGER,
@@ -31,6 +33,7 @@ const Event = sequelize.define('event', {
 });
 
 Event.belongsTo(Trigger, { foreignKey: 'id_trigger' });
+Event.sync();
 
 const Channel = sequelize.define('channel', {
   name: Sequelize.STRING,
@@ -38,18 +41,15 @@ const Channel = sequelize.define('channel', {
 
 const Channel_Trigger = sequelize.define('channel_trigger', {
 });
+Channel_Trigger.sync();
 
 Channel.belongsToMany(Trigger, { through: Channel_Trigger });
 Trigger.belongsToMany(Channel, { through: Channel_Trigger });
-
-User.sync();
-Moment.sync();
 Trigger.sync();
-Event.sync();
 Channel.sync();
-Channel_Trigger.sync();
 
-exports = {
+
+module.exports = {
   User,
   Moment,
   Trigger,
