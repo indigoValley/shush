@@ -1,8 +1,16 @@
+const config = require('../config');
 const Sequelize = require('sequelize');
-const sequelize = new Sequelize('test', 'root', '', {
-  host: 'localhost',
+// db password: NC8Jo8GGBp6CodbP
+// initialize proxy: indigovalley-shush:us-central1:iv-shush
+const sequelize = new Sequelize('shush', 'root', 'NC8Jo8GGBp6CodbP', {
+  host: '127.0.0.1',
   dialect: 'mysql',
 });
+// const sequelize = new Sequelize(config.database, config.username, config.password, {
+//   host: config.host,
+//   port: config.port,
+//   dialect: 'mysql',
+// });
 
 
 // define user table
@@ -41,10 +49,10 @@ const Channel = sequelize.define('channel', {
 
 const Channel_Trigger = sequelize.define('channel_trigger', {
 });
-Channel_Trigger.sync();
 
 Channel.belongsToMany(Trigger, { through: Channel_Trigger });
 Trigger.belongsToMany(Channel, { through: Channel_Trigger });
+Channel_Trigger.sync();
 Trigger.sync();
 Channel.sync();
 
