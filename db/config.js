@@ -24,11 +24,12 @@ Moment.sync();
 
 const Trigger = sequelize.define('trigger', {
   gate: Sequelize.INTEGER,
-  duration: Sequelize.INTEGER,
   message: Sequelize.STRING,
+  clip: Sequelize.STRING,
 });
 
 Trigger.belongsTo(User, { foreignKey: 'id_user' });
+Trigger.sync();
 
 const Event = sequelize.define('event', {
   timestamp: Sequelize.DATE,
@@ -37,18 +38,6 @@ const Event = sequelize.define('event', {
 Event.belongsTo(Trigger, { foreignKey: 'id_trigger' });
 Event.sync();
 
-const Channel = sequelize.define('channel', {
-  name: Sequelize.STRING,
-});
-
-const Channel_Trigger = sequelize.define('channel_trigger', {
-});
-
-Channel.belongsToMany(Trigger, { through: Channel_Trigger });
-Trigger.belongsToMany(Channel, { through: Channel_Trigger });
-Channel_Trigger.sync();
-Trigger.sync();
-Channel.sync();
 
 
 module.exports = {
