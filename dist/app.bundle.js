@@ -987,7 +987,7 @@ var Hello = function (_Component) {
           'shush'
         ),
         _react2.default.createElement('br', null),
-        _react2.default.createElement('img', { src: _microphone2.default, alt: 'microphone', 'class': 'displayed' })
+        _react2.default.createElement('img', { src: _microphone2.default, alt: 'microphone', className: 'displayed', width: '400px' })
       );
     }
   }]);
