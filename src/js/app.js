@@ -11,6 +11,8 @@ export default class Hello extends Component {
       <div>
         <h1>shush</h1>
         <br/>
+        <canvas id="meter" width="500" height="50"></canvas>
+        <br/>
         <img src={micImage} alt='microphone' className="displayed" width="400px"/>
       </div>
     );
