@@ -21,8 +21,10 @@
   "homepage": "https://github.com/phailsafe/shush#readme",
   "dependencies": {
     "body-parser": "^1.18.2",
+    "bootstrap": "^3.3.7",
     "dotenv": "^4.0.0",
     "express": "^4.16.2",
+    "jquery": "^3.2.1",
     "mysql2": "^1.5.1",
     "nodemon": "^1.14.3",
     "react": "^16.2.0",
