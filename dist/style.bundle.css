@@ -49,4 +49,12 @@ pre {
 IMG.displayed {
     display: block;
     margin-left: auto;
-    margin-right: auto }
+		margin-right: auto 
+}
+canvas {
+    padding: 5px;
+    margin: auto;
+    display: block;
+		width: 350px;
+		border: 2px solid black;
+}
