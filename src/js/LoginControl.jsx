@@ -4,16 +4,11 @@ class LoginControl extends React.Component {
   constructor(props) {
     super(props);
     this.handleLoginClick = this.handleLoginClick.bind(this);
-    this.handleLogoutClick = this.handleLogoutClick.bind(this);
     this.state = { isLoggedIn: false };
   }
 
-  handleLoginClick() {
-    this.setState({ isLoggedIn: true });
-  }
-
-  handleLogoutClick() {
-    this.setState({ isLoggedIn: false });
+  handleLoginClick(bool = !this.state.isLoggedIn) {
+    this.setState({ isLoggedIn: bool });
   }
 
   render() {
@@ -21,7 +16,7 @@ class LoginControl extends React.Component {
 
     let button = null;
     if (isLoggedIn) {
-      button = <button type="button" className="btn btn-lg btn-danger" onClick={this.handleLogoutClick}>Logout</button>;
+      button = <button type="button" className="btn btn-lg btn-danger" onClick={this.handleLoginClick}>Logout</button>;
     } else {
       button = <button type="button" className="btn btn-lg btn-primary" onClick={this.handleLoginClick}>Login</button>;
     }
