@@ -51,14 +51,13 @@ app.get("/auth/redirect", (req, res) => {
     }
   });
 });
-// testing request helper
-app.get('/home', util.getHome);
 
-// testing database
 app.get('/user', util.getUsers);
 app.post('/user', util.addUser);
 
-
+app.get('/trigger', util.getUserTriggers);
+app.post('/trigger', util.addTrigger);
+app.put('/trigger', util.updateTrigger);
 
 app.listen(PORT, () => {
   console.log(`listening on port ${PORT}`)
