@@ -954,9 +954,9 @@ var _reactDom = __webpack_require__(18);
 
 __webpack_require__(27);
 
-var _microphone = __webpack_require__(28);
+var _Mic_NoMeter = __webpack_require__(28);
 
-var _microphone2 = _interopRequireDefault(_microphone);
+var _Mic_NoMeter2 = _interopRequireDefault(_Mic_NoMeter);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -966,16 +966,24 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var Hello = function (_Component) {
-  _inherits(Hello, _Component);
+var App = function (_Component) {
+  _inherits(App, _Component);
 
-  function Hello() {
-    _classCallCheck(this, Hello);
+  function App(props) {
+    _classCallCheck(this, App);
 
-    return _possibleConstructorReturn(this, (Hello.__proto__ || Object.getPrototypeOf(Hello)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
+
+    _this.state = {};
+    return _this;
   }
 
-  _createClass(Hello, [{
+  _createClass(App, [{
+    key: 'onLoginClick',
+    value: function onLoginClick() {
+      console.log('LETS LOGIN !');
+    }
+  }, {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
@@ -986,19 +994,30 @@ var Hello = function (_Component) {
           null,
           'shush'
         ),
+        _react2.default.createElement(
+          'div',
+          { align: 'right' },
+          _react2.default.createElement(
+            'button',
+            { type: 'button', className: 'btn btn-lg btn-primary', onClick: this.onLoginClick },
+            'Login'
+          )
+        ),
         _react2.default.createElement('br', null),
-        _react2.default.createElement('img', { src: _microphone2.default, alt: 'microphone', className: 'displayed', width: '400px' })
+        _react2.default.createElement('canvas', { id: 'meter', width: '300', height: '50' }),
+        _react2.default.createElement('br', null),
+        _react2.default.createElement('img', { src: _Mic_NoMeter2.default, alt: 'microphone', className: 'displayed', width: '300px' })
       );
     }
   }]);
 
-  return Hello;
+  return App;
 }(_react.Component);
 
-exports.default = Hello;
+exports.default = App;
 
 
-(0, _reactDom.render)(_react2.default.createElement(Hello, null), document.getElementById('app'));
+(0, _reactDom.render)(_react2.default.createElement(App, null), document.getElementById('app'));
 
 /***/ }),
 /* 15 */
@@ -18318,7 +18337,7 @@ module.exports = camelize;
 /* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__.p + "707d3943e0be863766d19e67b131e602.png";
+module.exports = __webpack_require__.p + "06085964cc2e787016c06a68f8b8544f.png";
 
 /***/ })
 /******/ ]);

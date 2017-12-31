@@ -5,13 +5,10 @@ import '../css/style.css';
 
 import micImage from '../assets/Mic_NoMeter.png';
 
-export default class Hello extends Component {
+export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {};
-    // this.onLoginClick = () => {
-    //   console.log('LETS LOGIN !')
-    // };
   }
   onLoginClick() {
     console.log('LETS LOGIN !')
@@ -20,17 +17,17 @@ export default class Hello extends Component {
   render() {
     return (
       <div>
+        <h1>shush</h1>
         <div align="right">
           <button type="button" className="btn btn-lg btn-primary" onClick={this.onLoginClick}>Login</button>
         </div>
-        <h1>shush</h1>
         <br/>
         <canvas id="meter" width="300" height="50"></canvas>
         <br/>
-        <img src={micImage} alt='microphone' className="displayed" width="400px"/>
+        <img src={micImage} alt='microphone' className="displayed" width="300px"/>
       </div>
     );
   }
 }
 
-render(<Hello />, document.getElementById('app'));
+render(<App />, document.getElementById('app'));
