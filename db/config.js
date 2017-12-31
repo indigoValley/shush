@@ -6,9 +6,14 @@
 
 const Sequelize = require('sequelize');
 // db password: NC8Jo8GGBp6CodbP
-// initialize proxy: indigovalley-shush:us-central1:iv-shush
+// start proxy: ./cloud_sql_proxy -instances="indigovalley-shush:us-central1:iv-shush"=tcp:3306
 
-const sequelize = new Sequelize('shush', 'root', '', {
+let pw = '';
+if (process.env.PROD) {
+  console.log('set pw');
+  pw = 'NC8Jo8GGBp6CodbP';
+}
+const sequelize = new Sequelize('shush', 'root', pw, {
   host: '127.0.0.1',
   dialect: 'mysql',
 });
