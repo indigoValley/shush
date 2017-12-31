@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
-import { render } from 'react-dom';
+// import { render } from 'react-dom';
+import ReactDOM from 'react-dom';
+import $ from 'jquery';
 
 import '../css/style.css';
 
 import micImage from '../assets/Mic_NoMeter.png';
 import '../meter/volume-meter';
 import '../meter/main';
+import LoginControl from './LoginControl.jsx';
 export default class App extends Component {
   constructor(props) {
     super(props);
@@ -20,7 +23,7 @@ export default class App extends Component {
       <div>
         <h1>shush</h1>
         <div align="right">
-          <button type="button" className="btn btn-lg btn-primary" onClick={this.onLoginClick}>Login</button>
+          <LoginControl />
         </div>
         <br/>
         <canvas id="meter" width="300" height="50"></canvas>
@@ -31,4 +34,4 @@ export default class App extends Component {
   }
 }
 
-render(<App />, document.getElementById('app'));
+ReactDOM.render(<App />, document.getElementById('app'));
