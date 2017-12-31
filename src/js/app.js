@@ -4,7 +4,8 @@ import { render } from 'react-dom';
 import '../css/style.css';
 
 import micImage from '../assets/Mic_NoMeter.png';
-
+import '../meter/volume-meter';
+import '../meter/main';
 export default class App extends Component {
   constructor(props) {
     super(props);
