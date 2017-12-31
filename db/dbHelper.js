@@ -18,12 +18,20 @@ getUsers: function (callback) {
       });
   },
   addUser: function(user, callback) {
-    User.create(user, { fields: ['name'] })
-      .then((user) => {
-        callback(null, user);
+    User.generateHash(user.password)
+      .then((hash) => {
+        user.password = hash;
+        console.log(user.password);
+        User.create(user, { fields: ['name', 'email', 'password'] })
+          .then(user => {
+            callback(null, user);
+          })
+          .catch(err => {
+            callback(err);
+          });
       })
       .catch((err) => {
-        callback(err);
+        console.error(err);
       });
   },
 

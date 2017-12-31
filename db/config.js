@@ -1,8 +1,9 @@
-const config = require('../config');
+// const config = require('../config');
 const Sequelize = require('sequelize');
+const bcrypt = require('bcrypt');
 // db password: NC8Jo8GGBp6CodbP
 // initialize proxy: indigovalley-shush:us-central1:iv-shush
-const sequelize = new Sequelize('shush', 'root', 'NC8Jo8GGBp6CodbP', {
+const sequelize = new Sequelize('shush', 'root', '', {
   host: '127.0.0.1',
   dialect: 'mysql',
 });
@@ -10,8 +11,18 @@ const sequelize = new Sequelize('shush', 'root', 'NC8Jo8GGBp6CodbP', {
 // define user table
 const User = sequelize.define('user', {
   name: Sequelize.STRING,
-  // will add whatever isn't done through slack auth
+  email: Sequelize.STRING,
+  password: Sequelize.STRING
 });
+
+User.generateHash = function(password) {
+  return bcrypt.hash(password, bcrypt.genSaltSync(8));
+};
+
+User.prototype.validPassword = function(password) {
+  return bcrypt.compare(password, this.password);
+};
+  
 User.sync();
 
 const Moment = sequelize.define('moment', {
