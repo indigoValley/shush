@@ -1,3 +1,9 @@
+/**
+ * Database configuration file
+ * Set up schemas and table associations here.
+ * To connect to cloud database, use the db password below with the cloud_sql_proxy running
+ */
+
 const Sequelize = require('sequelize');
 // db password: NC8Jo8GGBp6CodbP
 // initialize proxy: indigovalley-shush:us-central1:iv-shush
@@ -15,7 +21,7 @@ const User = sequelize.define('user', {
 });
 
 const Moment = sequelize.define('moment', {
-  dbChange: Sequelize.INTEGER,
+  dbChange: Sequelize.FLOAT,
   timestamp: Sequelize.DATE,
 });
 
@@ -23,7 +29,7 @@ Moment.belongsTo(User, { foreignKey: 'id_user' });
 User.hasMany(Moment, { foreignKey: 'id_user' });
 
 const Trigger = sequelize.define('trigger', {
-  gate: Sequelize.INTEGER,
+  gate: Sequelize.FLOAT,
   message: Sequelize.STRING,
   clip: Sequelize.STRING,
 });

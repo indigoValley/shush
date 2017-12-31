@@ -52,15 +52,16 @@ app.get("/auth/redirect", (req, res) => {
   });
 });
 
+// handle /user route
 app.get('/user', util.getUsers);
 app.post('/user', util.addUser);
 
+// handle /trigger route
 app.get('/trigger', util.getUserTriggers);
 app.post('/trigger', util.addTrigger);
 app.put('/trigger', util.updateTrigger);
+app.delete('/trigger', util.deleteTrigger);
 
 app.listen(PORT, () => {
   console.log(`listening on port ${PORT}`)
 })
-
-// deploy test comment

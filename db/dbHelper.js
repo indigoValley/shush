@@ -1,3 +1,8 @@
+/**
+ * Database helper file
+ * Create methods to interact with database here.
+ */
+
 const {
   User,
   Moment,
@@ -60,6 +65,18 @@ getUsers: function (callback) {
       .catch((err) => {
         callback(err);
       })
-  }
+  },
+  deleteTrigger: function(trigger, callback) {
+    Trigger.findById(trigger.id)
+      .then((found) => {
+        return found.destroy();
+      })
+      .then(() => {
+        callback();
+      })
+      .catch((err) => {
+        callback(err);
+      });
+  },
 
 } 
