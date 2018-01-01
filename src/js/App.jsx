@@ -20,6 +20,7 @@ class App extends Component {
       rendNewUser: false,
       rendSettings: false,
 
+      message: '',
       username: null,
       triggers: [],
       currentVol: 0,
@@ -60,12 +61,19 @@ class App extends Component {
     this.routeButtonClick('mic');
   }
 
+  addTrigger(trigger) {
+    let trigs = this.state.triggers.concat(trigger);
+    this.setState({
+      triggers: trigs
+    })
+  }
+
 
   render() {
     const {isLoggedIn, rendMic, rendLogin, rendNewUser, rendSettings, username, triggers} = this.state;
     return (
       <div>
-        <h1>shush</h1>
+        <h1>{this.state.message || 'shush'}</h1>
         {/* login/out button conditional rendering */}
         <div align="right">
           {!isLoggedIn && <button type="button" className="btn btn-lg btn-primary" onClick={this.routeButtonClick.bind(this, 'login')}>login</button>}
@@ -82,7 +90,7 @@ class App extends Component {
         {rendMic && <img src={micImage} alt='microphone' className="displayed" width="300px" />}
         {rendLogin && <LoginForm router={this.routeButtonClick.bind(this)} submitLogin={this.submitLogin.bind(this)}/>}
         {rendNewUser && <NewUserForm />}
-        {rendSettings && <SettingsForm />}
+        {rendSettings && <SettingsForm triggers={triggers} addTrigger={this.addTrigger.bind(this)}/>}
       </div>
     );
   }
