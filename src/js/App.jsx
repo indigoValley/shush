@@ -34,23 +34,7 @@ class App extends Component {
 
       message: '',
       username: null,
-      triggers: [
-        {
-          gate: '20 dB - whisper',
-          message: 'shhhhhhhhhhhh',
-          clip: '"shhhhhhh"'
-        },
-        {
-          gate: '50 dB - private conversation',
-          message: 'quiet down please',
-          clip: 'Sam says "be like Fonzie"'
-        },
-        {
-          gate: '60 dB - group conversation',
-          message: 'SHUT UP !!!',
-          clip: 'Sam says "shut the F up"'
-        },
-      ],
+      triggers: [],
       currentVol: 0,
     };
     
