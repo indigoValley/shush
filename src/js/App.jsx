@@ -9,6 +9,7 @@ import {loadVolume} from '../meter/volume-meter';
 import LoginForm from './LoginForm.jsx';
 import NewUserForm from './NewUserForm.jsx';
 import SettingsForm from './SettingsForm.jsx';
+import throttle from '../../node_modules/lodash.throttle'
 
 class App extends Component {
   constructor(props) {
@@ -17,7 +18,7 @@ class App extends Component {
       isLoggedIn: false,
       rendMic: true,
       rendLogin: false,
-      rendNewUser: false,
+      rendNewUser: false, 
       rendSettings: false,
 
       message: '',
@@ -42,14 +43,37 @@ class App extends Component {
       ],
       currentVol: 0,
     };
+    this.triggerEvent = throttle(this.triggerEvent, 1000, { trailing: false });
   }
   //use throttle here?
   componentWillMount() {
     loadVolume((vol) => {
+      let didTrigger = { gate: 0, message: '', clip: '', play: false };
+      let play = false;
+      this.state.triggers.forEach((trigger, i) => {
+        if (vol >= trigger.gate) {
+          if (!play) {
+            play = true;
+          }
+          if (trigger.gate > didTrigger.gate) {
+            didTrigger = trigger;
+          }
+        }
+      });
+      if (play) {
+        this.triggerEvent(didTrigger);
+      }
       // this.setState({currentVol: vol});
       // console.log(vol);
-
     });
+  }
+  
+  triggerEvent(trigger) {
+    // this.setState({
+    // });
+    //   message: trigger.message,
+    console.log(trigger.message);
+    $.playSound(`../assets/${ trigger.clip }`);
   }
 
   routeButtonClick(route) {
