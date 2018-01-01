@@ -77,7 +77,6 @@ class App extends Component {
       'Sam says "shut the F up"': 'shutTheFUp',
     };
   }
-  //use throttle here?
   componentWillMount() {
     loadVolume((vol) => {
       let didTrigger = { gate: 0, message: '', clip: '', play: false };
@@ -96,13 +95,10 @@ class App extends Component {
       if (play && this.state.isLoggedIn) {
         this.triggerEvent(didTrigger, vol);
       }
-      // this.setState({currentVol: vol});
-      // console.log(vol);
     });
   }
   
   triggerEvent(trigger, vol) {
-    // const runClip = this.sounds[this.clips[trigger.clip]];
     console.log('vol', vol);
     this.setState({
       message: trigger.message,
