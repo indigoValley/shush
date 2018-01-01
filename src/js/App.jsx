@@ -130,6 +130,7 @@ class App extends Component {
   }
 
   addTrigger(trigger) {
+    console.log('adding this trigger !\n', trigger)
     let trigs = this.state.triggers.concat(trigger);
     this.setState({
       triggers: trigs
@@ -152,6 +153,7 @@ class App extends Component {
             <button type="button" className="btn btn-lg btn-success" onClick={this.routeButtonClick.bind(this, 'settings')}>
               {this.state.rendSettings ? 'hide triggers' : 'add triggers'}
             </button>
+            &nbsp;&nbsp;
             <button type="button" className="btn btn-lg btn-danger" onClick={this.logout.bind(this)}>logout</button>
             </div>}
         </div>
@@ -160,7 +162,7 @@ class App extends Component {
         <br/>
         {/* main functional conditional rendering */}
         {rendMic && !message && <img src={micImage} alt='microphone' className="displayed" width="300px" />}
-        {message && <h1>{message}</h1>}
+        {rendMic && message && <h1>{message}</h1>}
         {rendLogin && <LoginForm router={this.routeButtonClick.bind(this)} submitLogin={this.submitLogin.bind(this)}/>}
         {rendNewUser && <NewUserForm />}
         {rendSettings && <SettingsForm triggers={triggers} addTrigger={this.addTrigger.bind(this)}/>}

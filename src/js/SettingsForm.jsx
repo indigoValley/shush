@@ -5,39 +5,110 @@ class SettingsForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-
+      cGate: null,
+      cMessage: null,
+      cClip: null
     };
   }
+
+  onGChange(e) {
+    this.setState({
+      cGate: e.target.value
+    });
+  }
+  onMChange(e) {
+    this.setState({
+      cMessage: e.target.value
+    });
+  }
+  onCChange(e) {
+    this.setState({
+      cClip: e.target.value
+    });
+  }
+
+  submitTrigger(gate, text, clip) {
+    const newTrig = {
+      gate: gate,
+      message: text,
+      clip: clip
+    }
+    console.log('submitting trigger\n', newTrig)
+    this.props.addTrigger(newTrig);
+  }
   render() {
-    const { triggers , addTrigger} = this.props;
+    const { triggers , addTrigger } = this.props;
+    const { cGate, cMessage, cClip } = this.state;
     return (
       <div>
-        <ul>
-          {triggers.map((trigger, index) => (
-            <div>
-              <TriggerRow key={index} index={index + 1} trigger={trigger} addTrigger={addTrigger}/>
-              <br/>
-            </div>
-          ))}
-          <br/>
-          <li>
-            add new trigger
-          </li>
-        </ul>
+        <table className="table">
+          <caption>my triggers</caption>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>noise limit</th>
+              <th>text message</th>
+              <th>audio clip</th>
+              <th>edit</th>
+              <th>remove</th>
+            </tr>
+          </thead>
+          <tbody>
+            {triggers.map((trigger, index) => (
+                <TriggerRow key={index} index={index + 1} trigger={trigger} addTrigger={addTrigger} />
+            ))}
+          </tbody>
+        </table>
+        create a new trigger
+        <br/>
+        <div className="form-inline">
+          <div className="form-group">
+            <label htmlFor="newNoiseLimit">noise limit</label>
+            &nbsp;
+            <select className="form-control" onChange={this.onGChange.bind(this)}>
+              <option value="">select limit</option>
+              <option>10 dB - breathing</option>
+              <option>20 dB - whisper</option>
+              <option>50 dB - private conversation</option>
+              <option>60 dB - group conversation</option>
+              <option>80 dB - busy restaurant</option>
+              <option>100 dB - jackhammer</option>
+            </select>
+          </div>
+          &nbsp;&nbsp;&nbsp;
+          <div className="form-group">
+            <label htmlFor="newMessage">text message</label>
+            <input type="text" className="form-control" id="newMessage" placeholder="message" onChange={this.onMChange.bind(this)}/>
+          </div>
+          &nbsp;&nbsp;&nbsp;
+          <div className="form-group">
+            <label htmlFor="newAudioClip">audio clip</label>
+            &nbsp;
+            <select className="form-control" onChange={this.onCChange.bind(this)}>
+              <option value="">select clip</option>
+              <option>"shhhhhhh"</option>
+              <option>Sam says "stop right there"</option>
+              <option>Sam says "be like Fonzie"</option>
+              <option>Sam says "back off"</option>
+              <option>Sam says "get the F out my face"</option>
+              <option>Sam says "shut the F up"</option>
+            </select>
+          </div>
+          &nbsp;&nbsp;&nbsp;
+          {(!cGate || !cMessage || !cClip) && 
+           <fieldset disabled="disabled">
+            <button type="button" className="btn btn-success">add trigger</button>
+           </fieldset>
+          }
+          {cGate && cMessage && cClip &&
+            <fieldset>
+              <button type="button" className="btn btn-success" onClick={this.submitTrigger.bind(this, cGate, cMessage, cClip)}>add trigger</button>
+            </fieldset>
+          }
+        </div>
       </div>
-      // <div>
-      //   Trigger
-      //   <br />
-      //   Trigger
-      //   <br />
-      //   Trigger
-      //   <br />
-      //   Trigger
-      //   <br />
-      // </div>
     )
   }
 }
-
 
 export default SettingsForm;
