@@ -69,4 +69,4 @@ module.exports = {
   Event,
   Channel,
   Channel_Trigger,
-}
+};

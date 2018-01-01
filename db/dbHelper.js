@@ -8,7 +8,7 @@ const {
 } = require('./config');
 
 module.exports = {
-getUsers: function (callback) {
+  getUsers: function (callback) {
     User.findAll()
       .then((users) => {
         callback(null, users);
@@ -35,6 +35,4 @@ getUsers: function (callback) {
       });
   },
 
-} 
-
-// Test for commit issues
+};
