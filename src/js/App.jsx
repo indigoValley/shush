@@ -112,7 +112,7 @@ class App extends Component {
         <canvas id="meter" width="300" height="50"></canvas>
         <br/>
         {/* main functional conditional rendering */}
-        {rendMic && message && <img src={micImage} alt='microphone' className="displayed" width="300px" />}
+        {rendMic && !message && <img src={micImage} alt='microphone' className="displayed" width="300px" />}
         {message && <h1>{message}</h1>}
         {rendLogin && <LoginForm router={this.routeButtonClick.bind(this)} submitLogin={this.submitLogin.bind(this)}/>}
         {rendNewUser && <NewUserForm />}
