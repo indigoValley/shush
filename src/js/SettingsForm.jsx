@@ -98,6 +98,7 @@ class SettingsForm extends React.Component {
             </select>
           </div>
           &nbsp;&nbsp;&nbsp;
+          <br/>
           {(!cGate || !cMessage || !cClip) && 
            <fieldset disabled="disabled">
             <button type="button" className="btn btn-success">add trigger</button>
