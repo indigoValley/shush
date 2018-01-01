@@ -31,17 +31,17 @@ class App extends Component {
       username: null,
       triggers: [
         {
-          gate: .1,
+          gate: .15,
           message: 'shhhhhhhhhhhh',
-          clip: '1'
+          clip: '0'
         },
         {
-          gate: .2,
+          gate: .25,
           message: 'quiet down please',
-          clip: '2'
+          clip: '5'
         },
         {
-          gate: .3,
+          gate: .4,
           message: 'BITCH BE COOL !!!',
           clip: '3'
         },
@@ -49,7 +49,8 @@ class App extends Component {
       ],
       currentVol: 0,
     };
-    this.triggerEvent = throttle(this.triggerEvent, 1500, { trailing: false });
+    this.timeout = 1500;
+    this.triggerEvent = throttle(this.triggerEvent, this.timeout, { trailing: false });
     this.sounds = {
       0: new Audio(shushFile),
       1: new Audio(fonzieFile),
@@ -75,14 +76,15 @@ class App extends Component {
         }
       });
       if (play) {
-        this.triggerEvent(didTrigger);
+        this.triggerEvent(didTrigger, vol);
       }
       // this.setState({currentVol: vol});
       // console.log(vol);
     });
   }
   
-  triggerEvent(trigger) {
+  triggerEvent(trigger, vol) {
+    console.log('vol', vol);
     this.setState({
       message: trigger.message,
     });
@@ -90,8 +92,8 @@ class App extends Component {
       this.setState({
         message: '',
       });
-    }, 3000);
-    console.log(trigger.message);
+    }, this.timeout);
+    console.log(trigger);
     if (this.sounds[trigger.clip]) {
       this.sounds[trigger.clip].play();
     }
