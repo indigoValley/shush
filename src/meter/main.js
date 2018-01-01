@@ -24,7 +24,7 @@ SOFTWARE.
 var audioContext = null;
 var meter = null;
 var canvasContext = null;
-var WIDTH=500;
+var WIDTH=300;
 var HEIGHT=50;
 var rafID = null;
 
@@ -97,7 +97,7 @@ function drawLoop( time ) {
         canvasContext.fillStyle = "green";
 
     // draw a bar based on the current volume
-    canvasContext.fillRect(0, 0, meter.volume*WIDTH*1.4, HEIGHT);
+    canvasContext.fillRect(0, 0, meter.volume*WIDTH*1.2, HEIGHT);
 
     // set up the next visual callback
     rafID = window.requestAnimationFrame( drawLoop );
