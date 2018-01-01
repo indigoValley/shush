@@ -71,4 +71,4 @@ module.exports = {
   Moment,
   Trigger,
   Event,
-}
+};
