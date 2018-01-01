@@ -20,7 +20,7 @@ const sequelize = new Sequelize('shush', 'root', pw, {
 });
 
 
-// define user table
+// define user
 const User = sequelize.define('user', {
   name: Sequelize.STRING,
   email: Sequelize.STRING,
@@ -37,6 +37,7 @@ User.prototype.validPassword = function(password) {
   
 User.sync();
 
+// define moment
 const Moment = sequelize.define('moment', {
   dbChange: Sequelize.FLOAT,
   timestamp: Sequelize.DATE,
@@ -45,6 +46,7 @@ const Moment = sequelize.define('moment', {
 Moment.belongsTo(User, { foreignKey: 'id_user' });
 User.hasMany(Moment, { foreignKey: 'id_user' });
 
+// define trigger
 const Trigger = sequelize.define('trigger', {
   gate: Sequelize.FLOAT,
   message: Sequelize.STRING,
@@ -54,6 +56,7 @@ const Trigger = sequelize.define('trigger', {
 User.hasMany(Trigger, { foreignKey: 'id_user' });
 Trigger.belongsTo(User, { foreignKey: 'id_user' });
 
+// define event
 const Event = sequelize.define('event', {
   timestamp: Sequelize.DATE,
 });
