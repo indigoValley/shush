@@ -37,9 +37,10 @@ module.exports = {
         console.error(err);
       });
   },
-  addTrigger: function(username, trigger, callback) {
-    User.findOne({ where: { name: username } })
+  addTrigger: function(user, trigger, callback) {
+    User.findById(user.id)
       .then((user) => {
+        console.log('user', user);
         trigger['id_user'] = user.id;
         return Trigger.create(trigger, { fields: ['gate', 'message', 'clip', 'id_user'] });
       })
@@ -50,17 +51,17 @@ module.exports = {
         callback(err);
       });
   },
-  getUserTriggers: function (username, callback) {
-    User.findOne({ where: { name: username } })
+  getUserTriggers: function (user, callback) {
+    User.findById(user.id)
       .then((user) => {
-        return user.getTriggers()
+        return user.getTriggers();
       })
       .then((triggers) => {
         callback(triggers);
       })
       .catch((err) => {
         callback(err);
-      })
+      });
   },
   updateTrigger: function(trigger, callback) {
     Trigger.findById(trigger.id)
@@ -72,7 +73,7 @@ module.exports = {
       })
       .catch((err) => {
         callback(err);
-      })
+      });
   },
   deleteTrigger: function(trigger, callback) {
     Trigger.findById(trigger.id)
