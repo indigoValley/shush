@@ -22,7 +22,24 @@ class App extends Component {
 
       message: '',
       username: null,
-      triggers: [],
+      triggers: [
+        {
+          gate: .1,
+          message: 'shhhhhhhhhhhh',
+          clip: '1'
+        },
+        {
+          gate: .2,
+          message: 'quiet down please',
+          clip: '2'
+        },
+        {
+          gate: .3,
+          message: 'BITCH BE COOL !!!',
+          clip: '3'
+        },
+
+      ],
       currentVol: 0,
     };
   }
