@@ -6,7 +6,6 @@ import '../meter/volume-meter';
 import '../meter/main';
 
 import micImage from '../assets/Mic_NoMeter.png';
-import LoginControl from './LoginControl.jsx';
 import {loadVolume} from '../meter/volume-meter';
 
 class App extends Component {
