@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 
 import '../css/style.css';
 import micImage from '../assets/Mic_NoMeter.png';
+import '../meter/main';
 import {loadVolume} from '../meter/volume-meter';
 
 import LoginForm from './LoginForm.jsx';
