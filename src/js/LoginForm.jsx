@@ -46,7 +46,7 @@ class LoginForm extends React.Component {
           <div className="form-group">
             <div className="col-sm-offset-2 col-sm-10">
               <button type="submit" className="btn btn-default" onClick={this.loginSubmit.bind(this)}>login</button>
-              &nbsp;&nbsp;
+              &nbsp;&nbsp;&nbsp;&nbsp;
               <button type="button" className="btn btn-link" onClick={this.routeSubmit.bind(this, 'newUser')}>new user</button>
             </div>
           </div>
