@@ -11,7 +11,7 @@ const {
 } = require('./config');
 
 module.exports = {
-getUsers: function (callback) {
+  getUsers: function (callback) {
     User.findAll()
       .then((users) => {
         callback(null, users);
@@ -21,17 +21,26 @@ getUsers: function (callback) {
       });
   },
   addUser: function(user, callback) {
-    User.create(user, { fields: ['name'] })
-      .then((user) => {
-        callback(null, user);
+    User.generateHash(user.password)
+      .then((hash) => {
+        user.password = hash;
+        console.log(user.password);
+        User.create(user, { fields: ['name', 'email', 'password'] })
+          .then(user => {
+            callback(null, user);
+          })
+          .catch(err => {
+            callback(err);
+          });
       })
       .catch((err) => {
-        callback(err);
+        console.error(err);
       });
   },
-  addTrigger: function(username, trigger, callback) {
-    User.findOne({ where: { name: username } })
+  addTrigger: function(user, trigger, callback) {
+    User.findById(user.id)
       .then((user) => {
+        console.log('user', user);
         trigger['id_user'] = user.id;
         return Trigger.create(trigger, { fields: ['gate', 'message', 'clip', 'id_user'] });
       })
@@ -42,17 +51,17 @@ getUsers: function (callback) {
         callback(err);
       });
   },
-  getUserTriggers: function (username, callback) {
-    User.findOne({ where: { name: username } })
+  getUserTriggers: function (user, callback) {
+    User.findById(user.id)
       .then((user) => {
-        return user.getTriggers()
+        return user.getTriggers();
       })
       .then((triggers) => {
         callback(triggers);
       })
       .catch((err) => {
         callback(err);
-      })
+      });
   },
   updateTrigger: function(trigger, callback) {
     Trigger.findById(trigger.id)
@@ -64,7 +73,7 @@ getUsers: function (callback) {
       })
       .catch((err) => {
         callback(err);
-      })
+      });
   },
   deleteTrigger: function(trigger, callback) {
     Trigger.findById(trigger.id)
@@ -79,4 +88,4 @@ getUsers: function (callback) {
       });
   },
 
-} 
+};

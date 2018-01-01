@@ -5,6 +5,7 @@
  */
 
 const Sequelize = require('sequelize');
+const bcrypt = require('bcrypt');
 // db password: NC8Jo8GGBp6CodbP
 // start proxy: ./cloud_sql_proxy -instances="indigovalley-shush:us-central1:iv-shush"=tcp:3306
 
@@ -22,8 +23,19 @@ const sequelize = new Sequelize('shush', 'root', pw, {
 // define user table
 const User = sequelize.define('user', {
   name: Sequelize.STRING,
-  // will add whatever isn't done through slack auth
+  email: Sequelize.STRING,
+  password: Sequelize.STRING
 });
+
+User.generateHash = function(password) {
+  return bcrypt.hash(password, bcrypt.genSaltSync(8));
+};
+
+User.prototype.validPassword = function(password) {
+  return bcrypt.compare(password, this.password);
+};
+  
+User.sync();
 
 const Moment = sequelize.define('moment', {
   dbChange: Sequelize.FLOAT,
