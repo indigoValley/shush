@@ -15,6 +15,8 @@ var TriggerRow = ({index, trigger, addTrigger}) => {
         message: {trigger.message}
         <br/>
         audio clip: {trigger.clip}
+        <br/>
+        EDIT BUTTON || DELETE BUTTON
       </div>
     </div>
   )

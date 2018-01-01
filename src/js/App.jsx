@@ -54,6 +54,9 @@ class App extends Component {
 
   routeButtonClick(route) {
     console.log('routing to ', route)
+    if (route === 'settings' && this.state.rendSettings) {
+      route = 'mic';
+    }
     this.setState({
       rendMic: route === 'mic',
       rendLogin: route === 'login',
@@ -93,10 +96,14 @@ class App extends Component {
         <h1>{this.state.message || 'shush'}</h1>
         {/* login/out button conditional rendering */}
         <div align="right">
+          {username}
+          <br/>
           {!isLoggedIn && <button type="button" className="btn btn-lg btn-primary" onClick={this.routeButtonClick.bind(this, 'login')}>login</button>}
           {isLoggedIn && 
             <div>
-            <button type="button" className="btn btn-lg btn-success" onClick={this.routeButtonClick.bind(this, 'settings')}>add triggers</button>
+            <button type="button" className="btn btn-lg btn-success" onClick={this.routeButtonClick.bind(this, 'settings')}>
+              {this.state.rendSettings ? 'hide triggers' : 'add triggers'}
+            </button>
             <button type="button" className="btn btn-lg btn-danger" onClick={this.logout.bind(this)}>logout</button>
             </div>}
         </div>
