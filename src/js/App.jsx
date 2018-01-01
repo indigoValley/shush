@@ -9,6 +9,13 @@ import {loadVolume} from '../meter/volume-meter';
 import LoginForm from './LoginForm.jsx';
 import NewUserForm from './NewUserForm.jsx';
 import SettingsForm from './SettingsForm.jsx';
+import throttle from '../../node_modules/lodash.throttle';
+import shushFile from '../sounds/shush.mp3';  
+import fonzieFile from '../sounds/fonzie.mp3';  
+import getOutMyFaceFile from '../sounds/getOutMyFace.mp3';  
+import shutTheFUpFile from '../sounds/shutTheFUp.mp3';  
+import stopRightThereFile from '../sounds/stopRightThere.mp3';  
+import youBestBackOffFile from '../sounds/youBestBackOff.mp3';  
 
 class App extends Component {
   constructor(props) {
@@ -17,39 +24,79 @@ class App extends Component {
       isLoggedIn: false,
       rendMic: true,
       rendLogin: false,
-      rendNewUser: false,
+      rendNewUser: false, 
       rendSettings: false,
 
       message: '',
       username: null,
       triggers: [
         {
-          gate: .1,
+          gate: .15,
           message: 'shhhhhhhhhhhh',
-          clip: '1'
+          clip: 'shush'
         },
         {
-          gate: .2,
+          gate: .25,
           message: 'quiet down please',
-          clip: '2'
+          clip: 'fonzie'
         },
         {
-          gate: .3,
-          message: 'BITCH BE COOL !!!',
-          clip: '3'
+          gate: .4,
+          message: 'SHUT UP !!!',
+          clip: 'shutTheFUp'
         },
-
       ],
       currentVol: 0,
+    };
+    
+    this.timeout = 1500;
+    this.triggerEvent = throttle(this.triggerEvent, this.timeout, { trailing: false });
+    this.sounds = {
+      shush: new Audio(shushFile),
+      fonzie: new Audio(fonzieFile),
+      getOutMyFace: new Audio(getOutMyFaceFile),
+      shutTheFUp: new Audio(shutTheFUpFile),
+      stopRightThere: new Audio(stopRightThereFile),
+      youBestBackOff: new Audio(youBestBackOffFile),
     };
   }
   //use throttle here?
   componentWillMount() {
     loadVolume((vol) => {
+      let didTrigger = { gate: 0, message: '', clip: '', play: false };
+      let play = false;
+      this.state.triggers.forEach((trigger, i) => {
+        if (vol >= trigger.gate) {
+          if (!play) {
+            play = true;
+          }
+          if (trigger.gate > didTrigger.gate) {
+            didTrigger = trigger;
+          }
+        }
+      });
+      if (play) {
+        this.triggerEvent(didTrigger, vol);
+      }
       // this.setState({currentVol: vol});
       // console.log(vol);
-
     });
+  }
+  
+  triggerEvent(trigger, vol) {
+    console.log('vol', vol);
+    this.setState({
+      message: trigger.message,
+    });
+    setTimeout(() => {
+      this.setState({
+        message: '',
+      });
+    }, this.timeout);
+    console.log(trigger);
+    if (this.sounds[trigger.clip]) {
+      this.sounds[trigger.clip].play();
+    }
   }
 
   routeButtonClick(route) {
