@@ -76,7 +76,8 @@ class App extends Component {
 
   logout() {
     this.setState({
-      isLoggedIn: false
+      isLoggedIn: false,
+      username: null
     });
     this.routeButtonClick('mic');
   }
@@ -90,10 +91,10 @@ class App extends Component {
 
 
   render() {
-    const {isLoggedIn, rendMic, rendLogin, rendNewUser, rendSettings, username, triggers} = this.state;
+    const {isLoggedIn, rendMic, rendLogin, rendNewUser, rendSettings, username, triggers, message} = this.state;
     return (
       <div>
-        <h1>{this.state.message || 'shush'}</h1>
+        <h1>{'shush'}</h1>
         {/* login/out button conditional rendering */}
         <div align="right">
           {username}
@@ -111,7 +112,8 @@ class App extends Component {
         <canvas id="meter" width="300" height="50"></canvas>
         <br/>
         {/* main functional conditional rendering */}
-        {rendMic && <img src={micImage} alt='microphone' className="displayed" width="300px" />}
+        {rendMic && message && <img src={micImage} alt='microphone' className="displayed" width="300px" />}
+        {message && <h1>{message}</h1>}
         {rendLogin && <LoginForm router={this.routeButtonClick.bind(this)} submitLogin={this.submitLogin.bind(this)}/>}
         {rendNewUser && <NewUserForm />}
         {rendSettings && <SettingsForm triggers={triggers} addTrigger={this.addTrigger.bind(this)}/>}
