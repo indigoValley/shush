@@ -29,8 +29,7 @@ class LoginForm extends React.Component {
 
   render() {
     return (
-      <div>
-        <form action="" className="form-horizontal">
+        <div className="form-horizontal">
           <div className="form-group">
             <label htmlFor="inputUsername" className="col-sm-2 contol-label">username</label>
             <div className="col-sm-5">
@@ -50,8 +49,7 @@ class LoginForm extends React.Component {
               <button type="button" className="btn btn-link" onClick={this.routeSubmit.bind(this, 'newUser')}>new user</button>
             </div>
           </div>
-        </form>
-      </div>
+        </div>
     );
   }
 }
