@@ -53,6 +53,13 @@ class App extends Component {
     this.routeButtonClick('mic');
   }
 
+  logout() {
+    this.setState({
+      isLoggedIn: false
+    });
+    this.routeButtonClick('mic');
+  }
+
 
   render() {
     const {isLoggedIn, rendMic, rendLogin, rendNewUser, rendSettings, username, triggers} = this.state;
@@ -64,8 +71,8 @@ class App extends Component {
           {!isLoggedIn && <button type="button" className="btn btn-lg btn-primary" onClick={this.routeButtonClick.bind(this, 'login')}>login</button>}
           {isLoggedIn && 
             <div>
-              <button type="button" className="btn btn-lg btn-success">add triggers</button>
-              <button type="button" className="btn btn-lg btn-danger" >logout</button>
+            <button type="button" className="btn btn-lg btn-success" onClick={this.routeButtonClick.bind(this, 'settings')}>add triggers</button>
+            <button type="button" className="btn btn-lg btn-danger" onClick={this.logout.bind(this)}>logout</button>
             </div>}
         </div>
         <br/>
