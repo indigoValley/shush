@@ -10,7 +10,12 @@ import LoginForm from './LoginForm.jsx';
 import NewUserForm from './NewUserForm.jsx';
 import SettingsForm from './SettingsForm.jsx';
 import throttle from '../../node_modules/lodash.throttle';
+
+// sound files
 import shushFile from '../sounds/shush.mp3';  
+import pinDropFile from '../sounds/pinDrop.mp3';
+import hornHonkFile from '../sounds/hornHonk.mp3';
+import radioInterruptFile from '../sounds/radioInterruption.mp3';
 import fonzieFile from '../sounds/fonzie.mp3';  
 import getOutMyFaceFile from '../sounds/getOutMyFace.mp3';  
 import shutTheFUpFile from '../sounds/shutTheFUp.mp3';  
@@ -53,6 +58,9 @@ class App extends Component {
     this.triggerEvent = throttle(this.triggerEvent, this.timeout, { trailing: false });
     this.sounds = {
       shush: new Audio(shushFile),
+      pinDrop: new Audio(pinDropFile),
+      hornHonk: new Audio(hornHonkFile),
+      radioInterrupt: new Audio(radioInterruptFile),
       stopRightThere: new Audio(stopRightThereFile),
       fonzie: new Audio(fonzieFile),
       youBestBackOff: new Audio(youBestBackOffFile),
@@ -70,6 +78,9 @@ class App extends Component {
     };
     this.clips = {
       '"shhhhhhh"': 'shush',
+      'pin drop': 'pinDrop',
+      'horn honk': 'hornHonk',
+      'radio interruption': 'radioInterrupt',
       'Sam says "stop right there"': 'stopRightThere',
       'Sam says "be like Fonzie"': 'fonzie',
       'Sam says "back off"': 'youBestBackOff',

@@ -87,6 +87,9 @@ class SettingsForm extends React.Component {
             <select className="form-control" onChange={this.onCChange.bind(this)}>
               <option value="">select clip</option>
               <option>"shhhhhhh"</option>
+              <option>pin drop</option>
+              <option>horn honk</option>
+              <option>radio interruption</option>
               <option>Sam says "stop right there"</option>
               <option>Sam says "be like Fonzie"</option>
               <option>Sam says "back off"</option>
