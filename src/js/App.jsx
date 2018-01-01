@@ -33,31 +33,31 @@ class App extends Component {
         {
           gate: .15,
           message: 'shhhhhhhhhhhh',
-          clip: '0'
+          clip: 'shush'
         },
         {
           gate: .25,
           message: 'quiet down please',
-          clip: '5'
+          clip: 'fonzie'
         },
         {
           gate: .4,
-          message: 'BITCH BE COOL !!!',
-          clip: '3'
+          message: 'SHUT UP !!!',
+          clip: 'shutTheFUp'
         },
-
       ],
       currentVol: 0,
     };
+    
     this.timeout = 1500;
     this.triggerEvent = throttle(this.triggerEvent, this.timeout, { trailing: false });
     this.sounds = {
-      0: new Audio(shushFile),
-      1: new Audio(fonzieFile),
-      2: new Audio(getOutMyFaceFile),
-      3: new Audio(shutTheFUpFile),
-      4: new Audio(stopRightThereFile),
-      5: new Audio(youBestBackOffFile),
+      shush: new Audio(shushFile),
+      fonzie: new Audio(fonzieFile),
+      getOutMyFace: new Audio(getOutMyFaceFile),
+      shutTheFUp: new Audio(shutTheFUpFile),
+      stopRightThere: new Audio(stopRightThereFile),
+      youBestBackOff: new Audio(youBestBackOffFile),
     };
   }
   //use throttle here?
