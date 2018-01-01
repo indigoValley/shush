@@ -53,12 +53,12 @@ class App extends Component {
     };
     this.gates = {
       0: 0,
-      '10 dB - breathing': 0.1,
-      '20 dB - whisper': 0.2,
-      '50 dB - private conversation': 0.4,
-      '60 dB - group conversation': 0.6,
-      '80 dB - busy restaurant': 0.8,
-      '100 dB - jackhammer': 0.9,
+      '10 dB - breathing': 0.001,
+      '20 dB - whisper': 0.01,
+      '50 dB - private conversation': 0.03,
+      '60 dB - group conversation': 0.05,
+      '80 dB - busy restaurant': 0.06,
+      '100 dB - jackhammer': 0.5,
     };
     this.clips = {
       '"shhhhhhh"': 'shush',
