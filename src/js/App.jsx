@@ -10,7 +10,12 @@ import LoginForm from './LoginForm.jsx';
 import NewUserForm from './NewUserForm.jsx';
 import SettingsForm from './SettingsForm.jsx';
 import throttle from '../../node_modules/lodash.throttle';
+
+// sound files
 import shushFile from '../sounds/shush.mp3';  
+import pinDropFile from '../sounds/pinDrop.mp3';
+import hornHonkFile from '../sounds/hornHonk.mp3';
+import radioInterruptFile from '../sounds/radioInterruption.mp3';
 import fonzieFile from '../sounds/fonzie.mp3';  
 import getOutMyFaceFile from '../sounds/getOutMyFace.mp3';  
 import shutTheFUpFile from '../sounds/shutTheFUp.mp3';  
@@ -31,19 +36,19 @@ class App extends Component {
       username: null,
       triggers: [
         {
-          gate: .15,
+          gate: '20 dB - whisper',
           message: 'shhhhhhhhhhhh',
-          clip: 'shush'
+          clip: '"shhhhhhh"'
         },
         {
-          gate: .25,
+          gate: '50 dB - private conversation',
           message: 'quiet down please',
-          clip: 'fonzie'
+          clip: 'Sam says "be like Fonzie"'
         },
         {
-          gate: .4,
+          gate: '60 dB - group conversation',
           message: 'SHUT UP !!!',
-          clip: 'shutTheFUp'
+          clip: 'Sam says "shut the F up"'
         },
       ],
       currentVol: 0,
@@ -53,33 +58,54 @@ class App extends Component {
     this.triggerEvent = throttle(this.triggerEvent, this.timeout, { trailing: false });
     this.sounds = {
       shush: new Audio(shushFile),
+      pinDrop: new Audio(pinDropFile),
+      hornHonk: new Audio(hornHonkFile),
+      radioInterrupt: new Audio(radioInterruptFile),
+      stopRightThere: new Audio(stopRightThereFile),
       fonzie: new Audio(fonzieFile),
+      youBestBackOff: new Audio(youBestBackOffFile),
       getOutMyFace: new Audio(getOutMyFaceFile),
       shutTheFUp: new Audio(shutTheFUpFile),
-      stopRightThere: new Audio(stopRightThereFile),
-      youBestBackOff: new Audio(youBestBackOffFile),
+    };
+    this.gates = {
+      0: 0,
+      '10 dB - breathing': 0.1,
+      '20 dB - whisper': 0.2,
+      '50 dB - private conversation': 0.4,
+      '60 dB - group conversation': 0.6,
+      '80 dB - busy restaurant': 0.8,
+      '100 dB - jackhammer': 0.9,
+    };
+    this.clips = {
+      '"shhhhhhh"': 'shush',
+      'pin drop': 'pinDrop',
+      'horn honk': 'hornHonk',
+      'radio interruption': 'radioInterrupt',
+      'Sam says "stop right there"': 'stopRightThere',
+      'Sam says "be like Fonzie"': 'fonzie',
+      'Sam says "back off"': 'youBestBackOff',
+      'Sam says "get the F out my face"': 'getOutMyFace',
+      'Sam says "shut the F up"': 'shutTheFUp',
     };
   }
-  //use throttle here?
   componentWillMount() {
     loadVolume((vol) => {
       let didTrigger = { gate: 0, message: '', clip: '', play: false };
       let play = false;
       this.state.triggers.forEach((trigger, i) => {
-        if (vol >= trigger.gate) {
+        const tGate = this.gates[trigger.gate];
+        if (vol >= tGate) {
           if (!play) {
             play = true;
           }
-          if (trigger.gate > didTrigger.gate) {
+          if (tGate > this.gates[didTrigger.gate]) {
             didTrigger = trigger;
           }
         }
       });
-      if (play) {
+      if (play && this.state.isLoggedIn) {
         this.triggerEvent(didTrigger, vol);
       }
-      // this.setState({currentVol: vol});
-      // console.log(vol);
     });
   }
   
@@ -94,8 +120,8 @@ class App extends Component {
       });
     }, this.timeout);
     console.log(trigger);
-    if (this.sounds[trigger.clip]) {
-      this.sounds[trigger.clip].play();
+    if (this.sounds[this.clips[trigger.clip]]) {
+      this.sounds[this.clips[trigger.clip]].play();
     }
   }
 

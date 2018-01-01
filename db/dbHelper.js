@@ -11,6 +11,7 @@ const {
 } = require('./config');
 
 module.exports = {
+  // get all users
   getUsers: function (callback) {
     User.findAll()
       .then((users) => {
@@ -20,6 +21,7 @@ module.exports = {
         callback(err);
       });
   },
+  // create new user
   addUser: function(user, callback) {
     User.generateHash(user.password)
       .then((hash) => {
@@ -37,6 +39,7 @@ module.exports = {
         console.error(err);
       });
   },
+  // create new trigger tied to user
   addTrigger: function(user, trigger, callback) {
     User.findById(user.id)
       .then((user) => {
@@ -51,6 +54,7 @@ module.exports = {
         callback(err);
       });
   },
+  // get triggers of given user
   getUserTriggers: function (user, callback) {
     User.findById(user.id)
       .then((user) => {
@@ -63,6 +67,7 @@ module.exports = {
         callback(err);
       });
   },
+  // update given trigger
   updateTrigger: function(trigger, callback) {
     Trigger.findById(trigger.id)
       .then((found) => {
@@ -75,6 +80,7 @@ module.exports = {
         callback(err);
       });
   },
+  // delete given trigger
   deleteTrigger: function(trigger, callback) {
     Trigger.findById(trigger.id)
       .then((found) => {
