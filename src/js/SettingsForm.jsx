@@ -12,7 +12,25 @@ class SettingsForm extends React.Component {
     const { triggers , addTrigger} = this.props;
     return (
       <div>
-        <ul>
+        <table className="table">
+          <caption>my triggers</caption>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>noise gate</th>
+              <th>text message</th>
+              <th>audio clip</th>
+              <th>edit</th>
+              <th>delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            {triggers.map((trigger, index) => (
+                <TriggerRow key={index} index={index + 1} trigger={trigger} addTrigger={addTrigger} />
+            ))}
+          </tbody>
+        </table>
+        {/* <ul>
           {triggers.map((trigger, index) => (
             <div>
               <TriggerRow key={index} index={index + 1} trigger={trigger} addTrigger={addTrigger}/>
@@ -23,18 +41,8 @@ class SettingsForm extends React.Component {
           <li>
             add new trigger
           </li>
-        </ul>
+        </ul> */}
       </div>
-      // <div>
-      //   Trigger
-      //   <br />
-      //   Trigger
-      //   <br />
-      //   Trigger
-      //   <br />
-      //   Trigger
-      //   <br />
-      // </div>
     )
   }
 }
