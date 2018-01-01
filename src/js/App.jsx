@@ -9,7 +9,13 @@ import {loadVolume} from '../meter/volume-meter';
 import LoginForm from './LoginForm.jsx';
 import NewUserForm from './NewUserForm.jsx';
 import SettingsForm from './SettingsForm.jsx';
-import throttle from '../../node_modules/lodash.throttle'
+import throttle from '../../node_modules/lodash.throttle';
+import shushFile from '../sounds/shush.mp3';  
+import fonzieFile from '../sounds/fonzie.mp3';  
+import getOutMyFaceFile from '../sounds/getOutMyFace.mp3';  
+import shutTheFUpFile from '../sounds/shutTheFUp.mp3';  
+import stopRightThereFile from '../sounds/stopRightThere.mp3';  
+import youBestBackOffFile from '../sounds/youBestBackOff.mp3';  
 
 class App extends Component {
   constructor(props) {
@@ -43,7 +49,15 @@ class App extends Component {
       ],
       currentVol: 0,
     };
-    this.triggerEvent = throttle(this.triggerEvent, 1000, { trailing: false });
+    this.triggerEvent = throttle(this.triggerEvent, 1500, { trailing: false });
+    this.sounds = {
+      0: new Audio(shushFile),
+      1: new Audio(fonzieFile),
+      2: new Audio(getOutMyFaceFile),
+      3: new Audio(shutTheFUpFile),
+      4: new Audio(stopRightThereFile),
+      5: new Audio(youBestBackOffFile),
+    };
   }
   //use throttle here?
   componentWillMount() {
@@ -69,11 +83,18 @@ class App extends Component {
   }
   
   triggerEvent(trigger) {
-    // this.setState({
-    // });
-    //   message: trigger.message,
+    this.setState({
+      message: trigger.message,
+    });
+    setTimeout(() => {
+      this.setState({
+        message: '',
+      });
+    }, 3000);
     console.log(trigger.message);
-    $.playSound(`../assets/${ trigger.clip }`);
+    if (this.sounds[trigger.clip]) {
+      this.sounds[trigger.clip].play();
+    }
   }
 
   routeButtonClick(route) {
