@@ -27,7 +27,7 @@ module.exports = {
       .then((hash) => {
         user.password = hash;
         console.log(user.password);
-        User.create(user, { fields: ['name', 'email', 'password'] })
+        User.create(user, { fields: ['name', 'password'] })
           .then(user => {
             callback(null, user);
           })
