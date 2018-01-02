@@ -161,8 +161,12 @@ class App extends Component {
     })
   }
 
-  editTrigger(trigger) {
-    console.log('editing trigger\n', trigger)
+  editTrigger(newTrigger, index) {
+    console.log('editing trigger\n', newTrigger)
+    const { triggers } = this.state;
+    const newTriggers = triggers.slice(0);
+    newTriggers[index] = newTrigger;
+    this.setState({triggers: newTriggers});
   }
 
   deleteTrigger(trigger, index) {
