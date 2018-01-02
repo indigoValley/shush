@@ -51,6 +51,8 @@ class App extends Component {
       getOutMyFace: new Audio(getOutMyFaceFile),
       shutTheFUp: new Audio(shutTheFUpFile),
     };
+    // convert trigger data to display these values
+    // possibly create a duplicate triggers array with converted values
     this.gates = {
       0: 0,
       '10 dB - breathing': 0.001,
