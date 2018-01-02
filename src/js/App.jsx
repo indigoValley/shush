@@ -10,6 +10,7 @@ import LoginForm from './LoginForm.jsx';
 import NewUserForm from './NewUserForm.jsx';
 import SettingsForm from './SettingsForm.jsx';
 import throttle from '../../node_modules/lodash.throttle';
+import util from '../services/requestHelper';
 
 // sound files
 import shushFile from '../sounds/shush.mp3';  
@@ -125,32 +126,39 @@ class App extends Component {
   }
 
   submitLogin(username, password) {
-    //THIS IS WHERE oAUTH GOES <-------------------
-    //everything below is mockup functionality
-    this.setState({
-      username: username,
-      isLoggedIn: true,
+    console.log('login user', username);
+    util.userLogin({ name: username, password }, (res) => {
+      console.log(res);
+      this.setState({
+        username,
+        isLoggedIn: true,
+      });
+      this.routeButtonClick('mic');
     });
-    this.routeButtonClick('mic');
   }
 
   submitNewUser(username, password) {
     //more auth goes here <--------------------------------
     //everything below is mockup functionality
-    console.log('submitting new user\n', username)
-    this.setState({
-      username: username,
-      isLoggedIn: true,
+    util.userSignup({ name: username, password }, (res) => {
+      console.log(res);
+      this.setState({
+        username,
+        isLoggedIn: true,
+      });
+      this.routeButtonClick('mic');
     });
-    this.routeButtonClick('mic');
   }
 
   logout() {
-    this.setState({
-      isLoggedIn: false,
-      username: null
+    util.userLogout((res) => {
+      console.log(res);
+      this.setState({
+        isLoggedIn: false,
+        username: null,
+      });
+      this.routeButtonClick('mic');
     });
-    this.routeButtonClick('mic');
   }
 
   addTrigger(trigger) {
