@@ -3,65 +3,65 @@ const axios = require('axios');
 module.exports = {
   userSignup: function(user, callback) {
     axios.post('/signup', user)
-      .then((user) => {
-        callback(null, user);
+      .then((response) => {
+        callback(response);
       })
       .catch((err) => {
-        callback(err);
+        console.log('error signing up', err);
       });
   },
   userLogin: function(user, callback) {
     axios.post('/login', user)
-      .then((user) => {
-        callback(null);
+      .then((response) => {
+        callback(response);
       })
       .catch((err) => {
-        callback(err);
+        console.log('error logging in', err);
       });
   },
   userLogout: function(callback) {
     axios.get('/logout')
-      .then(() => {
-        callback(null);
+      .then((response) => {
+        callback(response);
       })
       .catch((err) => {
-        callback(err);
+        console.log('error logging out', err);
       });
   },
   addTrigger: function(trigger, callback) {
     axios.post('/trigger', trigger)
-      .then((trigger) => {
-        callback(null, trigger);
+      .then((response) => {
+        callback(response);
       })
       .catch((err) => {
-        callback(err);
+        console.log('error adding trigger', err);
       });
   },
   getTriggers: function(callback) {
     axios.get('/trigger')
-      .then((triggers) => {
-        callback(null, triggers);
+      .then((response) => {
+        callback(response);
       })
       .catch((err) => {
-        callback(err);
+        console.log('error fetching triggers',err);
       });
   },
   updateTrigger: function(trigger, callback) {
     axios.put('/trigger', trigger)
-      .then((updatedTrigger) => {
-        callback(null, updatedTrigger);
+      .then((response) => {
+        callback(response);
       })
       .catch((err) => {
-        callback(err);
+        console.log('error updating trigger', err);
       });
   },
   deleteTrigger: function(trigger, callback) {
-    axios.delete('/trigger', trigger)
-      .then(() => {
-        callback(null);
+    axios.delete('/trigger', { data: { id: trigger.id } })
+      .then((response) => {
+        callback(response);
       })
       .catch((err) => {
-        callback(err);
+        console.log('error deleting trigger', err);
       });
   },
 }

@@ -23,7 +23,6 @@ const sequelize = new Sequelize('shush', 'root', pw, {
 // define user
 const User = sequelize.define('user', {
   name: Sequelize.STRING,
-  email: Sequelize.STRING,
   password: Sequelize.STRING
 });
 

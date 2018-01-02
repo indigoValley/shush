@@ -49,21 +49,7 @@ app.use((req, res, next) => {
 
 
 // route for user signup
-app.route('/signup')
-  .post((req, res) => {
-    User.create({
-      username: req.body.username,
-      // email: req.body.email,
-      password: req.body.password
-    })
-      .then(user => {
-        req.session.user = user.dataValues;
-        res.send(201, user);
-      })
-      .catch(error => {
-        res.send(401, error);
-      });
-  });
+app.post('/signup', util.addUser);
 
 
 // route for user Login

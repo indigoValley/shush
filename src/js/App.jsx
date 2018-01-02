@@ -10,6 +10,7 @@ import LoginForm from './LoginForm.jsx';
 import NewUserForm from './NewUserForm.jsx';
 import SettingsForm from './SettingsForm.jsx';
 import throttle from '../../node_modules/lodash.throttle';
+import util from '../services/requestHelper';
 
 // sound files
 import shushFile from '../sounds/shush.mp3';  
@@ -74,6 +75,73 @@ class App extends Component {
       'Sam says "shut the F up"': 'shutTheFUp',
     };
   }
+  // lol
+  convertTrigger(trigger) {
+    switch(trigger.gate) {
+      case 0.001:
+        trigger.gate = '10 dB - breathing';
+        break;
+      case 0.01:
+        trigger.gate = '20 dB - whisper';
+        break;
+      case 0.03:
+        trigger.gate = '50 dB - private conversation';
+        break;
+      case 0.05:
+        trigger.gate = '60 dB - group conversation';
+        break;
+      case 0.06:
+        trigger.gate = '80 dB - busy restaurant';
+        break;
+      case 0.5:
+        trigger.gate = '100 dB - jackhammer';
+        break;
+      default:
+        break;
+    }
+    switch(trigger.clip) {
+      case 'shush':
+        trigger.clip = '"shhhhhhh"';
+        break;
+      case 'pinDrop':
+        trigger.clip = 'pin drop';
+        break;
+      case 'hornHonk':
+        trigger.clip = 'horn honk';
+        break;
+      case 'radioInterrupt':
+        trigger.clip = 'radio interruption';
+        break;
+      case 'stopRightThere':
+        trigger.clip = 'Sam says "stop right there"';
+        break;
+      case 'fonzie':
+        trigger.clip = 'Sam says "be like Fonzie"';
+        break;
+      case 'youBestBackOff':
+        trigger.clip = 'Sam says "back off"';
+        break;
+      case 'getOutMyFace':
+        trigger.clip = 'Sam says "get the F out my face"';
+        break;
+      case 'shutTheFUp':
+        trigger.clip = 'Sam says "shut the F up"';
+        break;
+      default:
+        break;
+    }
+    return trigger;
+  }
+
+  // make a database-ready copy of a trigger
+  // converts user-friendly values into correct variables for db
+  makeDbTrigger(trigger) {
+    let dbTrigger = Object.assign({}, trigger);
+    dbTrigger.gate = this.gates[trigger.gate];
+    dbTrigger.clip = this.clips[trigger.clip];
+    return dbTrigger;
+  }
+
   componentWillMount() {
     loadVolume((vol) => {
       let didTrigger = { gate: 0, message: '', clip: '', play: false };
@@ -95,8 +163,9 @@ class App extends Component {
     });
   }
   
+  // fire off the trigger
+  // sets displayed message and plays sound clip
   triggerEvent(trigger, vol) {
-    console.log('vol', vol);
     this.setState({
       message: trigger.message,
     });
@@ -105,14 +174,12 @@ class App extends Component {
         message: '',
       });
     }, this.timeout);
-    console.log(trigger);
     if (this.sounds[this.clips[trigger.clip]]) {
       this.sounds[this.clips[trigger.clip]].play();
     }
   }
 
   routeButtonClick(route) {
-    console.log('routing to ', route)
     if (route === 'settings' && this.state.rendSettings) {
       route = 'mic';
     }
@@ -125,57 +192,64 @@ class App extends Component {
   }
 
   submitLogin(username, password) {
-    //THIS IS WHERE oAUTH GOES <-------------------
-    //everything below is mockup functionality
-    this.setState({
-      username: username,
-      isLoggedIn: true,
+    util.userLogin({ name: username, password }, (res) => {
+      this.setState({
+        username,
+        isLoggedIn: true,
+      });
+      this.routeButtonClick('mic');
+      this.getTriggers();
     });
-    this.routeButtonClick('mic');
   }
 
   submitNewUser(username, password) {
-    //more auth goes here <--------------------------------
-    //everything below is mockup functionality
-    console.log('submitting new user\n', username)
-    this.setState({
-      username: username,
-      isLoggedIn: true,
+    util.userSignup({ name: username, password }, (res) => {
+      this.setState({
+        username,
+        isLoggedIn: true,
+      });
+      this.routeButtonClick('mic');
     });
-    this.routeButtonClick('mic');
   }
 
   logout() {
-    this.setState({
-      isLoggedIn: false,
-      username: null
+    util.userLogout((res) => {
+      this.setState({
+        isLoggedIn: false,
+        username: null,
+        triggers: [],
+      });
+      this.routeButtonClick('mic');
     });
-    this.routeButtonClick('mic');
+  }
+
+
+  getTriggers() {
+    util.getTriggers((res) => {
+      // make trigger data user friendly
+      const triggers = res.data.map((trigger) => this.convertTrigger(trigger));
+      this.setState({
+        triggers,
+      });
+    });
   }
 
   addTrigger(trigger) {
-    console.log('adding this trigger !\n', trigger)
-    let trigs = this.state.triggers.concat(trigger);
-    this.setState({
-      triggers: trigs
-    })
+    util.addTrigger(this.makeDbTrigger(trigger), (res) => {
+      this.getTriggers();
+    });
   }
 
   editTrigger(newTrigger, index) {
-    console.log('editing trigger\n', newTrigger)
-    const { triggers } = this.state;
-    const newTriggers = triggers.slice(0);
-    newTriggers[index] = newTrigger;
-    this.setState({triggers: newTriggers});
+    util.updateTrigger(this.makeDbTrigger(newTrigger), (res) => {
+      this.getTriggers();
+    });
   }
 
   deleteTrigger(trigger, index) {
-    console.log('deleting trigger\n', trigger)
-    let newTriggers = this.state.triggers.slice(0);
-    newTriggers.splice(index, 1);
-    this.setState({
-      triggers: newTriggers
-    })
+    util.deleteTrigger(this.makeDbTrigger(trigger), (res) => {
+      this.getTriggers();
+    });
   }
 
   render() {
