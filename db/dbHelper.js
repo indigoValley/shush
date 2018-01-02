@@ -42,7 +42,6 @@ module.exports = {
   addTrigger: function(user, trigger, callback) {
     User.findById(user.id)
       .then((user) => {
-        console.log('user', user);
         trigger['id_user'] = user.id;
         return Trigger.create(trigger, { fields: ['gate', 'message', 'clip', 'id_user'] });
       })
@@ -70,7 +69,7 @@ module.exports = {
   updateTrigger: function(trigger, callback) {
     Trigger.findById(trigger.id)
       .then((found) => {
-        return found.update(trigger, { fields: ['gate', 'message', 'clip'] });
+        return found.update(trigger, { fields: ['gate', 'message', 'clip'] }).save();
       })
       .then((updatedTrigger) => {
         callback(null, updatedTrigger);
@@ -83,7 +82,7 @@ module.exports = {
   deleteTrigger: function(trigger, callback) {
     Trigger.findById(trigger.id)
       .then((found) => {
-        return found.destroy();
+        return found.destroy().save();
       })
       .then(() => {
         callback(null);

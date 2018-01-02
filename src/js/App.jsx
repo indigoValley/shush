@@ -75,6 +75,7 @@ class App extends Component {
       'Sam says "shut the F up"': 'shutTheFUp',
     };
   }
+  // lol
   convertTrigger(trigger) {
     switch(trigger.gate) {
       case 0.001:
@@ -131,6 +132,16 @@ class App extends Component {
     }
     return trigger;
   }
+
+  // make a database-ready copy of a trigger
+  // converts user-friendly values into correct variables for db
+  makeDbTrigger(trigger) {
+    let dbTrigger = Object.assign({}, trigger);
+    dbTrigger.gate = this.gates[trigger.gate];
+    dbTrigger.clip = this.clips[trigger.clip];
+    return dbTrigger;
+  }
+
   componentWillMount() {
     loadVolume((vol) => {
       let didTrigger = { gate: 0, message: '', clip: '', play: false };
@@ -152,8 +163,9 @@ class App extends Component {
     });
   }
   
+  // fire off the trigger
+  // sets displayed message and plays sound clip
   triggerEvent(trigger, vol) {
-    console.log('vol', vol);
     this.setState({
       message: trigger.message,
     });
@@ -162,14 +174,12 @@ class App extends Component {
         message: '',
       });
     }, this.timeout);
-    console.log(trigger);
     if (this.sounds[this.clips[trigger.clip]]) {
       this.sounds[this.clips[trigger.clip]].play();
     }
   }
 
   routeButtonClick(route) {
-    console.log('routing to ', route)
     if (route === 'settings' && this.state.rendSettings) {
       route = 'mic';
     }
@@ -182,9 +192,7 @@ class App extends Component {
   }
 
   submitLogin(username, password) {
-    console.log('login user', username);
     util.userLogin({ name: username, password }, (res) => {
-      console.log(res);
       this.setState({
         username,
         isLoggedIn: true,
@@ -195,10 +203,7 @@ class App extends Component {
   }
 
   submitNewUser(username, password) {
-    //more auth goes here <--------------------------------
-    //everything below is mockup functionality
     util.userSignup({ name: username, password }, (res) => {
-      console.log(res);
       this.setState({
         username,
         isLoggedIn: true,
@@ -209,10 +214,10 @@ class App extends Component {
 
   logout() {
     util.userLogout((res) => {
-      console.log(res);
       this.setState({
         isLoggedIn: false,
         username: null,
+        triggers: [],
       });
       this.routeButtonClick('mic');
     });
@@ -220,13 +225,9 @@ class App extends Component {
 
 
   getTriggers() {
-    console.log('fetching user triggers');
     util.getTriggers((res) => {
-      console.log(res);
-      const triggers = res.data.map((trigger) => {
-        return this.convertTrigger(trigger);
-      });
-      console.log(triggers);
+      // make trigger data user friendly
+      const triggers = res.data.map((trigger) => this.convertTrigger(trigger));
       this.setState({
         triggers,
       });
@@ -234,42 +235,21 @@ class App extends Component {
   }
 
   addTrigger(trigger) {
-    console.log('adding this trigger !\n', trigger);
-    const dbTrigger = {
-      gate: this.gates[trigger.gate],
-      message: trigger.message,
-      clip: this.clips[trigger.clip],
-    };
-    util.addTrigger(dbTrigger, (res) => {
-      console.log(res);
+    util.addTrigger(this.makeDbTrigger(trigger), (res) => {
       this.getTriggers();
     });
   }
 
   editTrigger(newTrigger, index) {
-    console.log('editing trigger\n', newTrigger);
-    util.updateTrigger(newTrigger, (res) => {
-      console.log(res);
+    util.updateTrigger(this.makeDbTrigger(newTrigger), (res) => {
       this.getTriggers();
     });
-
-    // const { triggers } = this.state;
-    // const newTriggers = triggers.slice(0);
-    // newTriggers[index] = newTrigger;
-    // this.setState({triggers: newTriggers});
   }
 
   deleteTrigger(trigger, index) {
-    console.log('deleting trigger\n', trigger);
-    util.deleteTrigger(trigger, (res) => {
-      console.log(res);
+    util.deleteTrigger(this.makeDbTrigger(trigger), (res) => {
       this.getTriggers();
     });
-    // let newTriggers = this.state.triggers.slice(0);
-    // newTriggers.splice(index, 1);
-    // this.setState({
-    //   triggers: newTriggers
-    // });
   }
 
   render() {

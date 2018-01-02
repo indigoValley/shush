@@ -56,7 +56,7 @@ module.exports = {
       });
   },
   deleteTrigger: function(trigger, callback) {
-    axios.delete('/trigger', trigger)
+    axios.delete('/trigger', { data: { id: trigger.id } })
       .then((response) => {
         callback(response);
       })
