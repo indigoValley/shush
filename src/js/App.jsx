@@ -165,8 +165,13 @@ class App extends Component {
     console.log('editing trigger\n', trigger)
   }
 
-  deleteTrigger(trigger) {
+  deleteTrigger(trigger, index) {
     console.log('deleting trigger\n', trigger)
+    let newTriggers = this.state.triggers.slice(0);
+    newTriggers.splice(index, 1);
+    this.setState({
+      triggers: newTriggers
+    })
   }
 
   render() {
@@ -196,7 +201,14 @@ class App extends Component {
         {rendMic && message && <h1>{message}</h1>}
         {rendLogin && <LoginForm router={this.routeButtonClick.bind(this)} submitLogin={this.submitLogin.bind(this)}/>}
         {rendNewUser && <NewUserForm router={this.routeButtonClick.bind(this)} submitNewUser={this.submitNewUser.bind(this)}/>}
-        {rendSettings && <SettingsForm triggers={triggers} addTrigger={this.addTrigger.bind(this)}/>}
+        {rendSettings && 
+          <SettingsForm 
+            triggers={triggers} 
+            addTrigger={this.addTrigger.bind(this)}
+            editTrigger={this.editTrigger.bind(this)}
+            deleteTrigger={this.deleteTrigger.bind(this)}
+          />
+        }
       </div>
     );
   }

@@ -37,7 +37,7 @@ class SettingsForm extends React.Component {
     this.props.addTrigger(newTrig);
   }
   render() {
-    const { triggers , addTrigger } = this.props;
+    const { triggers , addTrigger , editTrigger , deleteTrigger} = this.props;
     const { cGate, cMessage, cClip } = this.state;
     return (
       <div>
@@ -55,7 +55,14 @@ class SettingsForm extends React.Component {
           </thead>
           <tbody>
             {triggers.map((trigger, index) => (
-                <TriggerRow key={index} index={index + 1} trigger={trigger} addTrigger={addTrigger} />
+                <TriggerRow 
+                  key={index} 
+                  index={index + 1} 
+                  trigger={trigger} 
+                  addTrigger={addTrigger}
+                  editTrigger={editTrigger}
+                  deleteTrigger={deleteTrigger}
+                />
             ))}
           </tbody>
         </table>
