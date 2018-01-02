@@ -1,6 +1,7 @@
 import React from 'react';
 
 var TriggerRow = ({index, trigger, addTrigger}) => {
+  
   const onAddClick = () => {
     addTrigger(props.trigger);
   }

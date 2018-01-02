@@ -126,6 +126,18 @@ class App extends Component {
 
   submitLogin(username, password) {
     //THIS IS WHERE oAUTH GOES <-------------------
+    //everything below is mockup functionality
+    this.setState({
+      username: username,
+      isLoggedIn: true,
+    });
+    this.routeButtonClick('mic');
+  }
+
+  submitNewUser(username, password) {
+    //more auth goes here <--------------------------------
+    //everything below is mockup functionality
+    console.log('submitting new user\n', username)
     this.setState({
       username: username,
       isLoggedIn: true,
@@ -149,6 +161,13 @@ class App extends Component {
     })
   }
 
+  editTrigger(trigger) {
+    console.log('editing trigger\n', trigger)
+  }
+
+  deleteTrigger(trigger) {
+    console.log('deleting trigger\n', trigger)
+  }
 
   render() {
     const {isLoggedIn, rendMic, rendLogin, rendNewUser, rendSettings, username, triggers, message} = this.state;
@@ -176,7 +195,7 @@ class App extends Component {
         {rendMic && !message && <img src={micImage} alt='microphone' className="displayed" width="300px" />}
         {rendMic && message && <h1>{message}</h1>}
         {rendLogin && <LoginForm router={this.routeButtonClick.bind(this)} submitLogin={this.submitLogin.bind(this)}/>}
-        {rendNewUser && <NewUserForm />}
+        {rendNewUser && <NewUserForm router={this.routeButtonClick.bind(this)} submitNewUser={this.submitNewUser.bind(this)}/>}
         {rendSettings && <SettingsForm triggers={triggers} addTrigger={this.addTrigger.bind(this)}/>}
       </div>
     );
