@@ -28,6 +28,7 @@ class LoginForm extends React.Component {
   }
 
   render() {
+    const { username , password } = this.state;
     return (
         <div className="form-horizontal">
           <div className="form-group">
@@ -44,9 +45,19 @@ class LoginForm extends React.Component {
           </div>
           <div className="form-group">
             <div className="col-sm-offset-2 col-sm-10">
-              <button type="submit" className="btn btn-default" onClick={this.loginSubmit.bind(this)}>login</button>
-              &nbsp;&nbsp;&nbsp;&nbsp;
-              <button type="button" className="btn btn-link" onClick={this.routeSubmit.bind(this, 'newUser')}>new user</button>
+              {(!username || !password) &&
+                <fieldset disabled="disabled">
+                  <button type="submit" className="btn btn-default">login</button>
+                </fieldset>
+              }
+              {username && password &&
+                <fieldset>
+                  <button type="submit" className="btn btn-default" onClick={this.loginSubmit.bind(this)}>login</button>
+                </fieldset>
+              }
+              <br/>
+              new here?
+              <button type="button" className="btn btn-link" onClick={this.routeSubmit.bind(this, 'newUser')}>create new user</button>
             </div>
           </div>
         </div>
@@ -55,8 +66,3 @@ class LoginForm extends React.Component {
 }
 
 export default LoginForm;
-
-// {/* username<input type="text" />
-// password<input type="text" name="" id="" />
-// <button>login</button>
-// <button>new user</button> */}
