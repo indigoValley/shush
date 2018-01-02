@@ -60,7 +60,7 @@ module.exports = {
         return user.getTriggers();
       })
       .then((triggers) => {
-        callback(triggers);
+        callback(null, triggers);
       })
       .catch((err) => {
         callback(err);
@@ -86,7 +86,7 @@ module.exports = {
         return found.destroy();
       })
       .then(() => {
-        callback();
+        callback(null);
       })
       .catch((err) => {
         callback(err);

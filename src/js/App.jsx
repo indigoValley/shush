@@ -75,6 +75,62 @@ class App extends Component {
       'Sam says "shut the F up"': 'shutTheFUp',
     };
   }
+  convertTrigger(trigger) {
+    switch(trigger.gate) {
+      case 0.001:
+        trigger.gate = '10 dB - breathing';
+        break;
+      case 0.01:
+        trigger.gate = '20 dB - whisper';
+        break;
+      case 0.03:
+        trigger.gate = '50 dB - private conversation';
+        break;
+      case 0.05:
+        trigger.gate = '60 dB - group conversation';
+        break;
+      case 0.06:
+        trigger.gate = '80 dB - busy restaurant';
+        break;
+      case 0.5:
+        trigger.gate = '100 dB - jackhammer';
+        break;
+      default:
+        break;
+    }
+    switch(trigger.clip) {
+      case 'shush':
+        trigger.clip = '"shhhhhhh"';
+        break;
+      case 'pinDrop':
+        trigger.clip = 'pin drop';
+        break;
+      case 'hornHonk':
+        trigger.clip = 'horn honk';
+        break;
+      case 'radioInterrupt':
+        trigger.clip = 'radio interruption';
+        break;
+      case 'stopRightThere':
+        trigger.clip = 'Sam says "stop right there"';
+        break;
+      case 'fonzie':
+        trigger.clip = 'Sam says "be like Fonzie"';
+        break;
+      case 'youBestBackOff':
+        trigger.clip = 'Sam says "back off"';
+        break;
+      case 'getOutMyFace':
+        trigger.clip = 'Sam says "get the F out my face"';
+        break;
+      case 'shutTheFUp':
+        trigger.clip = 'Sam says "shut the F up"';
+        break;
+      default:
+        break;
+    }
+    return trigger;
+  }
   componentWillMount() {
     loadVolume((vol) => {
       let didTrigger = { gate: 0, message: '', clip: '', play: false };
@@ -134,6 +190,7 @@ class App extends Component {
         isLoggedIn: true,
       });
       this.routeButtonClick('mic');
+      this.getTriggers();
     });
   }
 
@@ -161,29 +218,58 @@ class App extends Component {
     });
   }
 
+
+  getTriggers() {
+    console.log('fetching user triggers');
+    util.getTriggers((res) => {
+      console.log(res);
+      const triggers = res.data.map((trigger) => {
+        return this.convertTrigger(trigger);
+      });
+      console.log(triggers);
+      this.setState({
+        triggers,
+      });
+    });
+  }
+
   addTrigger(trigger) {
-    console.log('adding this trigger !\n', trigger)
-    let trigs = this.state.triggers.concat(trigger);
-    this.setState({
-      triggers: trigs
-    })
+    console.log('adding this trigger !\n', trigger);
+    const dbTrigger = {
+      gate: this.gates[trigger.gate],
+      message: trigger.message,
+      clip: this.clips[trigger.clip],
+    };
+    util.addTrigger(dbTrigger, (res) => {
+      console.log(res);
+      this.getTriggers();
+    });
   }
 
   editTrigger(newTrigger, index) {
-    console.log('editing trigger\n', newTrigger)
-    const { triggers } = this.state;
-    const newTriggers = triggers.slice(0);
-    newTriggers[index] = newTrigger;
-    this.setState({triggers: newTriggers});
+    console.log('editing trigger\n', newTrigger);
+    util.updateTrigger(newTrigger, (res) => {
+      console.log(res);
+      this.getTriggers();
+    });
+
+    // const { triggers } = this.state;
+    // const newTriggers = triggers.slice(0);
+    // newTriggers[index] = newTrigger;
+    // this.setState({triggers: newTriggers});
   }
 
   deleteTrigger(trigger, index) {
-    console.log('deleting trigger\n', trigger)
-    let newTriggers = this.state.triggers.slice(0);
-    newTriggers.splice(index, 1);
-    this.setState({
-      triggers: newTriggers
-    })
+    console.log('deleting trigger\n', trigger);
+    util.deleteTrigger(trigger, (res) => {
+      console.log(res);
+      this.getTriggers();
+    });
+    // let newTriggers = this.state.triggers.slice(0);
+    // newTriggers.splice(index, 1);
+    // this.setState({
+    //   triggers: newTriggers
+    // });
   }
 
   render() {
