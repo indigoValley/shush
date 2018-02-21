@@ -267,9 +267,9 @@ class App extends Component {
           <br/>
           {!isLoggedIn && 
             <div align="center">
-              <small>login to create your own custom noise triggers and start shushing your coworkers!</small>
-              <br/>
               <button type="button" className="btn btn-lg btn-primary" onClick={this.routeButtonClick.bind(this, 'login')}>login</button>
+              <br/>
+              <small>login to create your own custom noise triggers and start shushing your coworkers!</small>
             </div>
           }
           {isLoggedIn && 
