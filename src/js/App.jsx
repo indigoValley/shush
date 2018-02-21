@@ -256,12 +256,22 @@ class App extends Component {
     const {isLoggedIn, rendMic, rendLogin, rendNewUser, rendSettings, username, triggers, message} = this.state;
     return (
       <div>
-        <h1>{'shush'}</h1>
+        <h1>shush</h1>
+        <br/>
+        <div align="center">
+          <em>a playfull app for encouraging your coworkers' indoor voices</em>
+        </div>
         {/* login/out button conditional rendering */}
         <div align="right">
           {username}
           <br/>
-          {!isLoggedIn && <button type="button" className="btn btn-lg btn-primary" onClick={this.routeButtonClick.bind(this, 'login')}>login</button>}
+          {!isLoggedIn && 
+            <div align="center">
+              <small>login to create your own custom noise triggers and start shushing your coworkers!</small>
+              <br/>
+              <button type="button" className="btn btn-lg btn-primary" onClick={this.routeButtonClick.bind(this, 'login')}>login</button>
+            </div>
+          }
           {isLoggedIn && 
             <div>
             <button type="button" className="btn btn-lg btn-success" onClick={this.routeButtonClick.bind(this, 'settings')}>
@@ -269,7 +279,8 @@ class App extends Component {
             </button>
             &nbsp;&nbsp;
             <button type="button" className="btn btn-lg btn-danger" onClick={this.logout.bind(this)}>logout</button>
-            </div>}
+            </div>
+          }
         </div>
         <br/>
         <canvas id="meter" width="300" height="50"></canvas>
