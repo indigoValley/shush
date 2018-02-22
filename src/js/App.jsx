@@ -259,7 +259,7 @@ class App extends Component {
         <h1>shush</h1>
         <br/>
         <div align="center">
-          <em>a playfull app for encouraging your coworkers' indoor voices</em>
+          <em>a playful app for encouraging your coworkers' indoor voices</em>
         </div>
         {/* login/out button conditional rendering */}
         <div align="right">
